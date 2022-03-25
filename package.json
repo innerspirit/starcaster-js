@@ -12,7 +12,12 @@
     "debug": "webpack && qode --inspect ./dist/index.js"
   },
   "dependencies": {
-    "@nodegui/nodegui": "^0.36.0"
+    "@nodegui/nodegui": "^0.36.0",
+    "command-exists": "^1.2.9",
+    "lodash.pick": "^4.4.0",
+    "platform-folders": "^0.5.4",
+    "screptools": "git+https://github.com/msikma/screptools.git",
+    "screptools-process": "https://gitpkg.now.sh/msikma/screptools/packages/process?develop"
   },
   "devDependencies": {
     "@nodegui/packer": "^1.5.0",
