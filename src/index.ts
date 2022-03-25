@@ -1,7 +1,30 @@
-import { QMainWindow, QWidget, QLabel, FlexLayout, QPushButton, QIcon } from '@nodegui/nodegui';
+import { QMainWindow, QWidget, QLabel, FlexLayout, QPushButton, QIcon, QSystemTrayIcon, QMenu, QAction } from '@nodegui/nodegui';
+import { resolve } from 'path';
 import logo from '../assets/logox200.png';
-
 const http = require('http');
+
+const trayIcon = new QIcon(
+  resolve(__dirname, "../assets/testicon.jpg")
+);
+const tray = new QSystemTrayIcon();
+
+const menu = new QMenu();
+tray.setContextMenu(menu);
+
+//Each item in the menu is called an action
+const visibleAction = new QAction();
+menu.addAction(visibleAction);
+visibleAction.setText('Show/Hide');
+visibleAction.addEventListener('triggered', () => {
+  if (win.isVisible()) {
+    win.hide();
+  } else {
+    win.show();
+  }
+});
+
+tray.setIcon(trayIcon);
+tray.show();
 
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -59,3 +82,4 @@ win.setStyleSheet(
 win.show();
 
 (global as any).win = win;
+(global as any).tray = tray; // prevents garbage collection of tray
