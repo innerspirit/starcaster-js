@@ -3,6 +3,8 @@ import { resolve } from 'path';
 // @ts-ignore
 import { getRepData } from 'screptools/packages/file/index';
 import http from 'http';
+// @ts-ignore
+import { bnetapi, util } from 'bnetdata';
 
 const tray = setupTrayIcon();
 
@@ -15,6 +17,9 @@ async function setupWebServer() {
   const port = 3000;
   
   const homedir = require("os").homedir();
+
+  const lb = bnetapi.getLeaderboards();
+  console.log(lb);
 
   const repdata = await getRepData(homedir + '\\Documents\\StarCraft\\Maps\\Replays\\LastReplay.rep');
   console.log(repdata);
