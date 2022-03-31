@@ -13,15 +13,19 @@
   },
   "dependencies": {
     "@nodegui/nodegui": "^0.36.0",
-    "bnetdata": "github:innerspirit/bnetdata",
+    "bnetdata": "git+https://github.com/innerspirit/bnetdata.git#windows_support",
     "command-exists": "^1.2.9",
+    "handlebars": "^4.7.7",
+    "lodash": "^4.17.21",
     "lodash.pick": "^4.4.0",
+    "node-fetch": "^3.2.3",
     "platform-folders": "^0.5.4",
     "screptools": "git+https://github.com/msikma/screptools.git",
     "screptools-process": "https://gitpkg.now.sh/msikma/screptools/packages/process?develop"
   },
   "devDependencies": {
     "@nodegui/packer": "^1.5.0",
+    "@types/lodash": "^4.14.181",
     "@types/node": "^16.4.13",
     "clean-webpack-plugin": "^3.0.0",
     "file-loader": "^6.2.0",
