@@ -20,39 +20,51 @@ setupWebServer();
 (global as any).tray = tray; // prevents garbage collection of tray
 
 async function setupWebServer() {
-  const hostname = '127.0.0.1';
-  const port = 3000;
-  
-  const homedir = require("os").homedir();
-
-  const [proc, bnetport] = await getProcessInfo();
-
-  if (!proc) {
-    return console.error('bnetdata: error: StarCraft is not running.', 18)
-  }
-
-  const lb = (new BnetAPI(bnetport)).getLeaderboards();
+  const bnet = await setupBnet();
+  const lb = await bnet.getLeaderboards();
   pp(lb);
 
-  const repdata = await getRepData(homedir + '\\Documents\\StarCraft\\Maps\\Replays\\LastReplay.rep');
-  const mu = repdata.data.matchup;
-  const opp = mu.teams[1].players[0];
-  pp(repdata.data);
-  const opponent = { name: opp.name, race: opp.race, eapm: opp.eapm }
+  const server = http.createServer(async (req: any, res: any) => {
+    const tplfile = 'opponent.hbs';
+    const template = getHbsTemplate(tplfile);
 
-  var tplstring = fs.readFileSync(resolve(__dirname, "../assets/templates/opponent.hbs"));
-  const template = _.template(String(tplstring));
-
-  const server = http.createServer((req: any, res: any) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
+    const opponent = await getOpponent();
 
     res.end(template({ opponent }));
   });
 
+  runWebServer(server);
+}
+
+function runWebServer(server: http.Server) {
+  const hostname = '127.0.0.1';
+  const port = 3000;
   server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
   });
+}
+
+function getHbsTemplate(tplfile: string) {
+  const tplstring = fs.readFileSync(resolve(__dirname, "../assets/templates/" + tplfile));
+  const template = _.template(String(tplstring));
+  return template;
+}
+
+async function getOpponent() {
+  const repdata = await getLastReplay();
+  pp(repdata);
+  const mu = repdata.matchup;
+  const opp = mu.teams[1].players[0];
+  const opponent = { name: opp.name, race: opp.race, eapm: opp.eapm };
+  return opponent;
+}
+
+async function getLastReplay() {
+  const homedir = require("os").homedir();
+  const repdata = await getRepData(homedir + '\\Documents\\StarCraft\\Maps\\Replays\\LastReplay.rep');
+  return repdata.data;
 }
 
 function setupTrayIcon() {
@@ -75,5 +87,15 @@ function setupTrayIcon() {
   tray.setIcon(trayIcon);
   tray.show();
   return tray;
+}
+
+async function setupBnet() {
+  const [proc, bnetport] = await getProcessInfo();
+
+  if (!proc) {
+    console.error('bnetdata: error: StarCraft is not running.', 18)
+    process.exit(0);
+  }
+  return (new BnetAPI(bnetport));
 }
 
