@@ -1,6 +1,51 @@
-<h1>Last game</h1>
-<ul>
-    <li>vs. ${opponent.name}</li>
-    <li>Race: ${opponent.race}</li>
-    <li>EAPM: ${opponent.eapm}</li>
-</ul>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        @font-face {
+            font-family: "play";
+            src: url("/play.ttf");
+        }
+        @font-face {
+            font-family: "faustina";
+            src: url("/faustina.ttf");
+        }
+
+        h1, aside {
+            font-family: "play";
+        }
+
+        h1 { font-size: 44pt; line-height: 1; }
+        aside { font-size: 16pt; }
+
+        h2, h3 {
+            font-family: 'faustina';
+        }
+
+        aside {
+            position: absolute;
+            top: 0;
+            right: 0;
+            text-align: center;
+            width: 50px;
+        }
+
+        .widget {
+            width: 400px;
+            position: relative;
+        }
+    </style>
+
+<body>
+    <div class="widget">
+        <h1>WIN</h1>
+        <aside>LAST GAME</aside>
+        <center>
+            <h2>${opponent.name}</h2>
+            <h3>${opponent.race} (${opponent.apm} APM)</h3>
+        </center>
+    </div>
+</body>
+
+</html>
