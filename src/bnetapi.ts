@@ -15,6 +15,16 @@ export async function getOpponent() {
   return { opponent };
 }
 
+export async function getLastMatches() {
+  const repdata = await getLastReplay();
+  pp(repdata);
+  const mu = repdata.matchup;
+  const winner = mu.teams[0].players[0];
+  const loser = mu.teams[1].players[0];
+  const opponent = [{ winner, loser }];
+  return { opponent };
+}
+
 async function getLastReplay() {
   const homedir = require("os").homedir();
   const repdata = await getRepData(homedir + '\\Documents\\StarCraft\\Maps\\Replays\\LastReplay.rep');

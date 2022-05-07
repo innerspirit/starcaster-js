@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        @font-face {
+            font-family: "play";
+            src: url("/play.ttf");
+        }
+        @font-face {
+            font-family: "faustina";
+            src: url("/faustina.ttf");
+        }
+
+        h1, aside {
+            font-family: "play";
+        }
+
+        h1 { font-size: 44pt; line-height: 1; }
+        aside { font-size: 16pt; }
+
+        h2, h3 {
+            font-family: 'faustina';
+        }
+
+        aside {
+            position: absolute;
+            top: 0;
+            right: 0;
+            text-align: center;
+            width: 50px;
+        }
+
+        .widget {
+            width: 400px;
+            position: relative;
+        }
+    </style>
+
+<body>
+    <div class="widget">
+        <aside>LAST 5 GAMES</aside>
+        <center>
+        <table>
+            <tr>
+                {{#each matches}}
+                <td>${winner.name} [${winner.race}] > [${loser.race}] ${loser.name}</td>
+                {{/each}}
+            </tr>
+        </table>
+        </center>
+    </div>
+</body>
+
+</html>

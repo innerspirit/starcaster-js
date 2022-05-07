@@ -3,7 +3,7 @@ import http from 'http';
 import { pp } from './utils';
 import { render, runWebServer } from './webserver';
 import { setupTrayIcon } from './windows-ui';
-import { setupBnet, getOpponent } from './bnetapi';
+import { setupBnet, getLastMatches } from './bnetapi';
 
 const tray = setupTrayIcon();
 (global as any).tray = tray; // prevents garbage collection of tray
@@ -16,8 +16,8 @@ async function setupWebServer() {
   pp(lb);
 
   const server = http.createServer(async (req: any, res: any) => {
-    const data = await getOpponent();
-    render(res, 'opponent.hbs', data);
+    const data = await getLastMatches();
+    render(res, 'last5.hbs', data);
   });
 
   runWebServer(server);
